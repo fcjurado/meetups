@@ -149,7 +149,7 @@ $ wp theme install fury --activate
 
 
 
-## Instalar plugin
+## Instalar plugin (OSC)
 
 ```
 $ wp plugin install coffee-cup-widget --activate
@@ -157,6 +157,8 @@ $ wp plugin install coffee-cup-widget --activate
 $ wp plugin install coffee-cup-widget --activate
 
 $ wp plugin install contact-form-7 jetpack wordpress-seo user-registration google-sitemap-generator w3-total-cache vaultpress wp-smushit wp-optimize google-analytics-for-wordpress all-in-one-schemaorg-rich-snippets bj-lazy-load wordfence broken-link-checker social-icons cornify-for-wordpress hello-darth food-and-drink-menu tlp-food-menu tinycoffee --activate
+
+$ wp plugin install https://github.com/wp-media/wp-rocket/archive/master.zip --activate
 ```
 
 
@@ -200,7 +202,7 @@ $ wp theme update-all
 
 
 
-## Crear contenido random
+## Crear contenido aleatorio (OSC)
 
 ```
 $ wp term generate category --count=100
@@ -217,9 +219,10 @@ $ wp user generate --count=10 --role=author
 
 $ wp post generate --format=ids --count=100 | xargs -0 -d ' ' -I % wp comment generate --count=10 --post_id=%
 
-OSC
+$ curl "https://baconipsum.com/api/?type=meat-and-filler&paras=10&format=html" | wp post generate --count=5 --format=ids --post_status=publish --post_content | xargs -0 -d ' ' -I % wp comment generate --count=10 --post_id=%
 
-$ curl "https://baconipsum.com/api/?type=meat-and-filler&paras=10&format=html" | wp post generate --count=5 --post_content --format=ids | xargs -0 -d ' ' -I % wp comment generate --count=10 --post_id=%
+$ curl "https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=html" | wp post generate --count=1 --post_content
+
 ```
 
 
@@ -302,28 +305,37 @@ $ wp import sombra.wordpress.2019-03-20.000.xml --authors=create
 
 
 
-## Crear staging site 
+## Clonar / Crear staging site / Backup (OSC)
 
-Recomendado al hacer acciones automáticas de actualizaciones
+Recomendado antes de hacer acciones de actualizaciones
 
 ```
-$ mkdir staging 
+$ cd nube
 
-$ cd staging
+$ wp db export ~/nube.sql
 
-$ cp -R ../sombra/* ./ 
+$ mkdir ../staging 
+
+$ cd ../staging
+
+$ cp -R ../nube/* ./ 
 
 $ wp config set DB_NAME staging
 
 $ wp db create
 
-$ wp db import ~/cafes.sql
+$ wp db import ~/nube.sql
 
-$ wp search-replace 'http://wpcli.local/wp-cli/cafes/' 'http://wpcli.local/wp-cli/staging/' 
+$ wp search-replace 'http://wp-cli.local/wp-cli/nube' 'http://wpcli.local/wp-cli/staging/' 
 
 $ wp option update home 'http://wp-cli.local/wp-cli/staging/'
 
 $ wp option update siteurl 'http://wp-cli.local/wp-cli/staging/'
+
+$ wp option update blogname 'A cup of staging con leche'
+
+$ wp option update blogdescription 'in Plaza Mayor'
+
 ```
 
 
@@ -364,19 +376,24 @@ $ wp config set WP_DEBUG false
 ```$ wp db cli```
 
 
+## List all registered image sizes
+
+```$ wp media image-size```
+
 
 ## Subir imágenes desde local (OSC)
 
 ```
-$ wp media import ../images/*.jpg 
+$ wp media import ~/images/*.jpg 
 
-wp media import ../images/DSC_4321.png --post_id=1 \
---title="A little cat" --featured_image
+$ wp media import ~/images/*.jpg --post_id=$(wp post list --posts_per_page=1 --orderby=rand --format=ids --field=ID) --featured_image
+
+[Subir imágenes y asignar a post random](images.sh)
+
+$ wp media import ~/images/qRffH2BpOTw.jpg --post_id=1 --title="A tiny cup" --featured_image
 ```
 
-
-
-## Regenerar thumnails (OSC)
+## Regenerar thumnails
 
 Cambiamos el tema para necesitar regenerar
 
@@ -406,7 +423,7 @@ $ wp rename-db-prefix cafe_solo_
 ```
 
 
-### WP-SEC
+### WP-SEC (OSC)
 
 WP-SEC es una extensión que realiza chequeo de vulnerabilidades con wpvulndb.com
 
@@ -426,11 +443,13 @@ $ wp package install wp-cli/profile-command
 $ wp profile stage --all --spotlight --allow-root
 ```
 
-## Tiempo carga plugins
+## Tiempo carga plugins (OSC)
+
+Instalamos primero varios plugins
 
 [Medir tiempo plugins](performance.sh)
 
-## Varios servidores - Alias
+## Varios servidores - Alias (OSC)
 
 ~/.wp-cli/config.yml
 
@@ -466,5 +485,3 @@ $ wp profile stage --all --spotlight --allow-root
 ```
 
 [Update](update.sh)
-
-@TODO: Plugins Premium
