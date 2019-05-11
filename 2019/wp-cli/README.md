@@ -158,7 +158,7 @@ $ wp plugin install coffee-cup-widget --activate
 
 $ wp plugin install contact-form-7 jetpack wordpress-seo user-registration google-sitemap-generator w3-total-cache vaultpress wp-smushit wp-optimize google-analytics-for-wordpress all-in-one-schemaorg-rich-snippets bj-lazy-load wordfence broken-link-checker social-icons cornify-for-wordpress hello-darth food-and-drink-menu tlp-food-menu tinycoffee --activate
 
-$ wp plugin install https://github.com/wp-media/wp-rocket/archive/master.zip --activate
+$ wp plugin install https://fcjurado.com/wp-content/uploads/2019/05/gp-premium-12.zip --activate
 ```
 
 
